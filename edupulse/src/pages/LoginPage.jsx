@@ -7,6 +7,7 @@ import AnimatedWorld from '../components/shared/AnimatedWorld';
 import LoadingScreen from '../components/shared/LoadingScreen';
 import { useData } from '../context/DataContext';
 import { ArrowRight, ChevronDown, Brain, BarChart3, Shield, Users, Zap, Target, GraduationCap, FileSpreadsheet, Bot, LineChart } from 'lucide-react';
+import N8nPipelineSection from '../components/workflow/N8nPipelineSection';
 
 const fadeUp = { hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } };
 const stagger = { visible: { transition: { staggerChildren: 0.12 } } };
@@ -239,121 +240,8 @@ export default function LoginPage() {
         </motion.div>
       </section>
 
-      {/* N8N WORKFLOW — Visual Node Graph */}
-      <section id="workflow" style={{ ...S.section, background: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(6px)' }}>
-        <FloatingShape x="3%" y="10%" delay={0.2} size={26}>🔗</FloatingShape>
-        <FloatingShape x="92%" y="15%" delay={0.8} size={30}>⚙️</FloatingShape>
-        <motion.div variants={stagger} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-80px' }} style={S.inner}>
-          <motion.div variants={fadeUp} style={S.secHead}>
-            <span style={{ ...S.badge, background: 'rgba(108,92,231,0.1)', color: '#6C5CE7' }}>🔄 n8n Automation</span>
-            <h2 style={S.secTitle}>How Our <span style={{ color: '#6C5CE7' }}>n8n Pipeline</span> Works</h2>
-            <p style={S.secDesc}>Every student response triggers a fully automated workflow — no manual work required.</p>
-          </motion.div>
-
-          {/* SVG Node Graph */}
-          <motion.div variants={fadeUp} style={{ position: 'relative', width: '100%', maxWidth: 1100, margin: '0 auto', overflow: 'visible' }}>
-            <svg width="100%" viewBox="0 0 1100 320" style={{ overflow: 'visible' }}>
-              {/* Connection lines */}
-              <path d="M 180 100 C 240 100, 260 100, 320 100" stroke="#DFE6E9" strokeWidth="3" fill="none" strokeDasharray="8,4" />
-              <path d="M 480 100 C 540 100, 560 100, 620 100" stroke="#DFE6E9" strokeWidth="3" fill="none" strokeDasharray="8,4" />
-              <path d="M 780 100 C 840 100, 860 160, 920 160" stroke="#DFE6E9" strokeWidth="3" fill="none" strokeDasharray="8,4" />
-              <path d="M 480 100 C 540 100, 540 260, 620 260" stroke="#DFE6E9" strokeWidth="3" fill="none" strokeDasharray="8,4" />
-
-              {/* Animated data pulses on lines */}
-              <motion.circle r="5" fill="#6C5CE7" animate={{ offsetDistance: ['0%','100%'] }} transition={{ duration: 2, repeat: Infinity, ease: 'linear' }} style={{ offsetPath: "path('M 180 100 C 240 100, 260 100, 320 100')" }} />
-              <motion.circle r="5" fill="#E17055" animate={{ offsetDistance: ['0%','100%'] }} transition={{ duration: 2, repeat: Infinity, ease: 'linear', delay: 0.5 }} style={{ offsetPath: "path('M 480 100 C 540 100, 560 100, 620 100')" }} />
-              <motion.circle r="5" fill="#00B894" animate={{ offsetDistance: ['0%','100%'] }} transition={{ duration: 2.5, repeat: Infinity, ease: 'linear', delay: 1 }} style={{ offsetPath: "path('M 780 100 C 840 100, 860 160, 920 160')" }} />
-              <motion.circle r="5" fill="#0984E3" animate={{ offsetDistance: ['0%','100%'] }} transition={{ duration: 3, repeat: Infinity, ease: 'linear', delay: 1.5 }} style={{ offsetPath: "path('M 480 100 C 540 100, 540 260, 620 260')" }} />
-
-              {/* Node 1: Google Forms Trigger */}
-              <g>
-                <motion.rect x="20" y="60" width="160" height="80" rx="16" fill="white" stroke="#0984E3" strokeWidth="2.5" filter="url(#nodeShadow)"
-                  whileHover={{ scale: 1.05 }} style={{ cursor: 'pointer' }} />
-                <rect x="20" y="60" width="160" height="28" rx="16" fill="#0984E3" />
-                <rect x="20" y="76" width="160" height="12" fill="#0984E3" />
-                <text x="100" y="80" textAnchor="middle" fill="white" fontSize="11" fontWeight="800" fontFamily="Nunito">⚡ TRIGGER</text>
-                <text x="100" y="108" textAnchor="middle" fill="#2D3436" fontSize="12" fontWeight="700" fontFamily="Nunito">Google Forms</text>
-                <text x="100" y="125" textAnchor="middle" fill="#636E72" fontSize="9" fontFamily="Nunito">On Form Submit</text>
-                {/* Output connector */}
-                <circle cx="180" cy="100" r="6" fill="white" stroke="#0984E3" strokeWidth="2" />
-              </g>
-
-              {/* Node 2: n8n Webhook */}
-              <g>
-                <motion.rect x="320" y="60" width="160" height="80" rx="16" fill="white" stroke="#6C5CE7" strokeWidth="2.5" filter="url(#nodeShadow)"
-                  whileHover={{ scale: 1.05 }} style={{ cursor: 'pointer' }} />
-                <rect x="320" y="60" width="160" height="28" rx="16" fill="#6C5CE7" />
-                <rect x="320" y="76" width="160" height="12" fill="#6C5CE7" />
-                <text x="400" y="80" textAnchor="middle" fill="white" fontSize="11" fontWeight="800" fontFamily="Nunito">🔄 PROCESS</text>
-                <text x="400" y="108" textAnchor="middle" fill="#2D3436" fontSize="12" fontWeight="700" fontFamily="Nunito">n8n Webhook</text>
-                <text x="400" y="125" textAnchor="middle" fill="#636E72" fontSize="9" fontFamily="Nunito">Parse & Route Data</text>
-                <circle cx="320" cy="100" r="6" fill="white" stroke="#6C5CE7" strokeWidth="2" />
-                <circle cx="480" cy="100" r="6" fill="white" stroke="#6C5CE7" strokeWidth="2" />
-              </g>
-
-              {/* Node 3: Groq AI */}
-              <g>
-                <motion.rect x="620" y="60" width="160" height="80" rx="16" fill="white" stroke="#E17055" strokeWidth="2.5" filter="url(#nodeShadow)"
-                  whileHover={{ scale: 1.05 }} style={{ cursor: 'pointer' }} />
-                <rect x="620" y="60" width="160" height="28" rx="16" fill="#E17055" />
-                <rect x="620" y="76" width="160" height="12" fill="#E17055" />
-                <text x="700" y="80" textAnchor="middle" fill="white" fontSize="11" fontWeight="800" fontFamily="Nunito">🤖 AI NODE</text>
-                <text x="700" y="108" textAnchor="middle" fill="#2D3436" fontSize="12" fontWeight="700" fontFamily="Nunito">Groq LLM API</text>
-                <text x="700" y="125" textAnchor="middle" fill="#636E72" fontSize="9" fontFamily="Nunito">Sentiment Analysis</text>
-                <circle cx="620" cy="100" r="6" fill="white" stroke="#E17055" strokeWidth="2" />
-                <circle cx="780" cy="100" r="6" fill="white" stroke="#E17055" strokeWidth="2" />
-              </g>
-
-              {/* Node 4: SheetDB */}
-              <g>
-                <motion.rect x="920" y="120" width="160" height="80" rx="16" fill="white" stroke="#00B894" strokeWidth="2.5" filter="url(#nodeShadow)"
-                  whileHover={{ scale: 1.05 }} style={{ cursor: 'pointer' }} />
-                <rect x="920" y="120" width="160" height="28" rx="16" fill="#00B894" />
-                <rect x="920" y="136" width="160" height="12" fill="#00B894" />
-                <text x="1000" y="140" textAnchor="middle" fill="white" fontSize="11" fontWeight="800" fontFamily="Nunito">📊 DATABASE</text>
-                <text x="1000" y="168" textAnchor="middle" fill="#2D3436" fontSize="12" fontWeight="700" fontFamily="Nunito">SheetDB API</text>
-                <text x="1000" y="185" textAnchor="middle" fill="#636E72" fontSize="9" fontFamily="Nunito">Write to Sheets</text>
-                <circle cx="920" cy="160" r="6" fill="white" stroke="#00B894" strokeWidth="2" />
-              </g>
-
-              {/* Node 5: Score Calculator */}
-              <g>
-                <motion.rect x="620" y="220" width="160" height="80" rx="16" fill="white" stroke="#00CED1" strokeWidth="2.5" filter="url(#nodeShadow)"
-                  whileHover={{ scale: 1.05 }} style={{ cursor: 'pointer' }} />
-                <rect x="620" y="220" width="160" height="28" rx="16" fill="#00CED1" />
-                <rect x="620" y="236" width="160" height="12" fill="#00CED1" />
-                <text x="700" y="240" textAnchor="middle" fill="white" fontSize="11" fontWeight="800" fontFamily="Nunito">⚙️ FUNCTION</text>
-                <text x="700" y="268" textAnchor="middle" fill="#2D3436" fontSize="12" fontWeight="700" fontFamily="Nunito">Score Calculator</text>
-                <text x="700" y="285" textAnchor="middle" fill="#636E72" fontSize="9" fontFamily="Nunito">Weighted Formula</text>
-                <circle cx="620" cy="260" r="6" fill="white" stroke="#00CED1" strokeWidth="2" />
-              </g>
-
-              {/* Shadow filter */}
-              <defs>
-                <filter id="nodeShadow" x="-10%" y="-10%" width="120%" height="130%">
-                  <feDropShadow dx="0" dy="4" stdDeviation="8" floodColor="#000" floodOpacity="0.06" />
-                </filter>
-              </defs>
-            </svg>
-          </motion.div>
-
-          {/* Workflow stats */}
-          <motion.div variants={fadeUp} style={{ display: 'flex', justifyContent: 'center', gap: 48, marginTop: 48, flexWrap: 'wrap' }}>
-            {[
-              { val: '5 Nodes', label: 'In the pipeline', icon: '🔗' },
-              { val: '< 30s', label: 'End-to-end processing', icon: '⚡' },
-              { val: '100%', label: 'Automated pipeline', icon: '🤖' },
-              { val: 'Zero', label: 'Manual intervention', icon: '🎯' },
-            ].map((s, i) => (
-              <motion.div key={i} whileHover={{ y: -4 }} style={{ textAlign: 'center', cursor: 'default' }}>
-                <div style={{ fontSize: '1.5rem', marginBottom: 4 }}>{s.icon}</div>
-                <div style={{ fontFamily: "'Baloo 2',cursive", fontSize: '1.8rem', fontWeight: 800, color: '#6C5CE7' }}>{s.val}</div>
-                <div style={{ fontSize: '0.9rem', color: '#636E72', fontWeight: 600, fontFamily: "'Nunito',sans-serif" }}>{s.label}</div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </motion.div>
-      </section>
+      {/* N8N WORKFLOW — 27-Node Pipeline Visualization */}
+      <N8nPipelineSection />
 
       {/* Extra floating elements between sections */}
       <div style={{ position: 'relative', height: 0, overflow: 'visible' }}>

@@ -1,8 +1,10 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { CATEGORY_COLORS, CATEGORY_LABELS } from './WorkflowData';
 
 export default function NodeDetailPanel({ node, onClose }) {
   if (!node) return null;
+  const color = CATEGORY_COLORS[node.type] || '#7A7D8B';
 
   return (
     <motion.div
@@ -13,22 +15,42 @@ export default function NodeDetailPanel({ node, onClose }) {
       style={styles.panel}
     >
       <button onClick={onClose} style={styles.closeBtn}>✕</button>
-      
-      <div style={{ ...styles.icon, background: getBg(node.type) }}>{node.icon}</div>
-      <h2 style={styles.name}>{node.name}</h2>
-      <span style={{ ...styles.type, background: `${getBg(node.type)}15`, color: getBg(node.type) }}>
-        {node.type.toUpperCase()}
+
+      {/* Category badge */}
+      <span style={{
+        display: 'inline-block', padding: '5px 14px', borderRadius: 20,
+        background: `${color}15`, color, fontSize: '0.7rem', fontWeight: 800,
+        letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 12,
+      }}>
+        {CATEGORY_LABELS[node.type] || node.type}
       </span>
 
+      <h2 style={styles.name}>{node.name}</h2>
+      <p style={styles.subtitle}>{node.subtitle}</p>
+
       <div style={styles.section}>
-        <h4 style={styles.secTitle}>What It Does</h4>
+        <h4 style={styles.secTitle}>🔍 What It Does</h4>
         <p style={styles.secText}>{node.what}</p>
       </div>
 
       <div style={styles.section}>
-        <h4 style={styles.secTitle}>Why We Use It</h4>
+        <h4 style={styles.secTitle}>💡 Why It Matters</h4>
         <p style={styles.secText}>{node.why}</p>
       </div>
+
+      {node.formula && (
+        <div style={{ ...styles.section, padding: '12px 16px', background: `${color}08`, borderRadius: 12, border: `1px solid ${color}20` }}>
+          <h4 style={{ ...styles.secTitle, color }}>📐 Formula</h4>
+          <p style={{ ...styles.secText, fontFamily: "'Courier New', monospace", fontWeight: 700 }}>{node.formula}</p>
+        </div>
+      )}
+
+      {node.aiModel && (
+        <div style={{ ...styles.section, padding: '12px 16px', background: 'rgba(249,115,22,0.06)', borderRadius: 12, border: '1px solid rgba(249,115,22,0.15)' }}>
+          <h4 style={{ ...styles.secTitle, color: '#F97316' }}>🤖 AI Model</h4>
+          <p style={{ ...styles.secText, fontWeight: 700 }}>{node.aiModel}</p>
+        </div>
+      )}
 
       <div style={styles.row}>
         <div style={styles.half}>
@@ -44,21 +66,10 @@ export default function NodeDetailPanel({ node, onClose }) {
   );
 }
 
-function getBg(type) {
-  switch(type) {
-    case 'trigger': return '#FF6B35';
-    case 'data': return '#3B82F6';
-    case 'ai': return '#9333EA';
-    case 'code': return '#2EC4B6';
-    case 'output': return '#E71D73';
-    default: return '#7A7D8B';
-  }
-}
-
 const styles = {
   panel: {
-    position: 'fixed', top: 90, right: 24, bottom: 24, width: 380, zIndex: 110,
-    background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(20px)',
+    position: 'fixed', top: 90, right: 24, bottom: 24, width: 400, zIndex: 110,
+    background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(20px)',
     borderRadius: 24, padding: 32, boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
     border: '1px solid rgba(255,255,255,0.5)', overflowY: 'auto',
   },
@@ -66,16 +77,12 @@ const styles = {
     position: 'absolute', top: 20, right: 20, background: 'none', border: 'none',
     fontSize: '1.2rem', cursor: 'pointer', color: '#A0A3AE',
   },
-  icon: {
-    width: 64, height: 64, borderRadius: 16, display: 'flex', alignItems: 'center',
-    justifyContent: 'center', fontSize: '2rem', marginBottom: 16, boxShadow: '0 8px 20px rgba(0,0,0,0.1)',
-  },
-  name: { fontSize: '1.5rem', marginBottom: 8, color: '#2D3142' },
-  type: { fontSize: '0.7rem', fontWeight: 800, padding: '4px 12px', borderRadius: 20, letterSpacing: '0.05em' },
-  section: { marginTop: 32 },
-  secTitle: { fontSize: '0.9rem', color: '#7A7D8B', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.03em' },
-  secText: { fontSize: '0.95rem', color: '#2D3142', lineHeight: 1.6, fontWeight: 500 },
-  row: { display: 'flex', gap: 16, marginTop: 32 },
+  name: { fontSize: '1.4rem', marginBottom: 4, color: '#1E293B', fontFamily: "'Baloo 2',cursive", fontWeight: 800 },
+  subtitle: { fontSize: '0.85rem', color: '#64748B', marginBottom: 24, fontWeight: 600 },
+  section: { marginTop: 24 },
+  secTitle: { fontSize: '0.75rem', color: '#475569', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.04em', fontWeight: 800 },
+  secText: { fontSize: '0.9rem', color: '#334155', lineHeight: 1.65, fontWeight: 500 },
+  row: { display: 'flex', gap: 16, marginTop: 24 },
   half: { flex: 1 },
-  dataTag: { fontSize: '0.8rem', background: 'rgba(0,0,0,0.04)', padding: '8px 12px', borderRadius: 8, color: '#64748B', fontWeight: 600 },
+  dataTag: { fontSize: '0.8rem', background: 'rgba(0,0,0,0.04)', padding: '10px 12px', borderRadius: 10, color: '#64748B', fontWeight: 600, lineHeight: 1.5 },
 };
