@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --primary: #6C5CE7;
+  --primary-light: #A29BFE;
+  --accent-blue: #0984E3;
+  --accent-teal: #00CED1;
+  --accent-green: #00B894;
+  --accent-red: #E17055;
+  --accent-yellow: #FDCB6E;
+  --accent-pink: #FD79A8;
+  --bg: #F8FAFE;
+  --text: #2D3436;
+  --text-light: #636E72;
+  --text-muted: #B2BEC3;
+  --card: rgba(255,255,255,0.9);
+  --border: #F1F3F5;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:'Nunito',sans-serif;color:var(--text);line-height:1.6;min-height:100vh;overflow-x:hidden;background:var(--bg)}
+h1,h2,h3,h4,h5,h6{font-family:'Baloo 2',cursive;line-height:1.2;color:var(--text)}
+.mono{font-family:'Space Mono',monospace}
+
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:#F1F3F5}
+::-webkit-scrollbar-thumb{background:#DFE6E9;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#B2BEC3}
+
+.glass-card{background:var(--card);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:0 8px 32px rgba(0,0,0,0.06)}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:20px;font-size:0.8rem;font-weight:700}
+.badge-low{background:rgba(0,184,148,0.12);color:#00B894}
+.badge-medium{background:rgba(253,203,110,0.15);color:#E17055}
+.badge-high{background:rgba(225,112,85,0.12);color:#E17055}
+
+@media(max-width:767px){html{font-size:14px}}
