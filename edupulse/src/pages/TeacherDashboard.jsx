@@ -6,7 +6,8 @@ import Navbar from '../components/layout/Navbar';
 import StatCard from '../components/teacher/StatCard';
 import StudentTable from '../components/teacher/StudentTable';
 import GlassCard from '../components/shared/GlassCard';
-import { Users, TrendingUp, AlertTriangle, CheckCircle, FileBarChart, PieChart, BarChart3 } from 'lucide-react';
+import { Users, TrendingUp, AlertTriangle, CheckCircle, FileBarChart, PieChart, BarChart3, ArrowRight } from 'lucide-react';
+import N8nWorkflowControl from '../components/teacher/N8nWorkflowControl';
 
 export default function TeacherDashboard() {
   const { students, setStudents, getClassStats } = useData();
@@ -73,13 +74,23 @@ export default function TeacherDashboard() {
 
           <GlassCard delay={0.7} style={styles.reportCard}>
             <div style={styles.reportOverlay}>
-              <FileBarChart size={32} color="#7A7D8B" />
+              <FileBarChart size={32} color="#7C3AED" />
               <h3>Class Performance Report</h3>
-              <p>Coming Soon — Full AI-generated insights</p>
-              <button disabled style={styles.disabledBtn}>Generate Report</button>
+              <p>Full AI-generated insights available via Google Docs</p>
+              <a 
+                href="https://docs.google.com/document/d/1wRjmOKl-aO0F7oXy5G4P0DeoBnXp3rTV78pgwCACUVM/edit?tab=t.0" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={styles.activeBtn}
+              >
+                View Report <ArrowRight size={16} />
+              </a>
             </div>
           </GlassCard>
         </div>
+
+        {/* N8N Workflow Section */}
+        <N8nWorkflowControl />
       </motion.div>
     </div>
   );
@@ -102,5 +113,19 @@ const styles = {
   fakeBar: { flex: 1, borderRadius: '4px 4px 0 0' },
   reportCard: { height: 320, background: 'rgba(255,255,255,0.4)', position: 'relative', overflow: 'hidden' },
   reportOverlay: { position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: 30 },
-  disabledBtn: { marginTop: 20, padding: '10px 24px', borderRadius: 10, border: 'none', background: '#A0A3AE', color: 'white', fontWeight: 700, cursor: 'not-allowed' },
+  activeBtn: { 
+    marginTop: 20, 
+    padding: '12px 24px', 
+    borderRadius: 12, 
+    border: 'none', 
+    background: 'linear-gradient(135deg, #7C3AED, #6366F1)', 
+    color: 'white', 
+    fontWeight: 700, 
+    textDecoration: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+    boxShadow: '0 8px 20px rgba(124, 58, 237, 0.2)',
+    transition: 'transform 0.2s'
+  },
 };
