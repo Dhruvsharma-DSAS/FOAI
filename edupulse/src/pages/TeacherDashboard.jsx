@@ -7,7 +7,6 @@ import StatCard from '../components/teacher/StatCard';
 import StudentTable from '../components/teacher/StudentTable';
 import GlassCard from '../components/shared/GlassCard';
 import { Users, TrendingUp, AlertTriangle, CheckCircle, FileBarChart, PieChart, BarChart3, ArrowRight } from 'lucide-react';
-import N8nWorkflowControl from '../components/teacher/N8nWorkflowControl';
 
 export default function TeacherDashboard() {
   const { students, setStudents, getClassStats } = useData();
@@ -88,9 +87,6 @@ export default function TeacherDashboard() {
             </div>
           </GlassCard>
         </div>
-
-        {/* N8N Workflow Section */}
-        <N8nWorkflowControl />
       </motion.div>
     </div>
   );

@@ -9,6 +9,7 @@ import ScoreBreakdown from '../components/dashboard/ScoreBreakdown';
 import MetricCard from '../components/dashboard/MetricCard';
 import FeedbackCard from '../components/dashboard/FeedbackCard';
 import MotivationalBanner from '../components/dashboard/MotivationalBanner';
+import N8nWorkflowControl from '../components/workflow/N8nWorkflowControl';
 import { getAvatarGradient, getRiskColor, getRiskIcon } from '../utils/helpers';
 import { Book, Target, Star, HelpCircle, Zap, ClipboardList, TrendingUp } from 'lucide-react';
 
@@ -110,6 +111,9 @@ export default function StudentDashboard() {
             delay={1.2}
           />
         </div>
+
+        {/* N8N Workflow Section */}
+        <N8nWorkflowControl initialId={student['ID']} />
       </motion.div>
     </div>
   );

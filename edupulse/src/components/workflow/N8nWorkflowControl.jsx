@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Copy, Check, Zap, Play, Loader2 } from 'lucide-react';
+import { Copy, Check, Zap, Play, Loader2, Key } from 'lucide-react';
 import GlassCard from '../shared/GlassCard';
 
-export default function N8nWorkflowControl() {
+export default function N8nWorkflowControl({ initialId = "student-engagement-sync" }) {
   const [copied, setCopied] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [step, setStep] = useState(0);
-  const webhookUrl = "http://localhost:5678/webhook/student-engagement-sync";
+  const [webhookId, setWebhookId] = useState(initialId);
+  
+  const webhookUrl = `http://localhost:5678/webhook/${webhookId}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(webhookUrl);
@@ -26,7 +28,6 @@ export default function N8nWorkflowControl() {
       setIsRunning(false);
       setStep(4);
       setTimeout(() => {
-        // After success, wait a bit and reset to 0
         setTimeout(() => setStep(0), 4000);
       }, 100);
     }, 4500);
@@ -44,7 +45,19 @@ export default function N8nWorkflowControl() {
 
       <div style={styles.content}>
         <div style={styles.controlBox}>
-          <label style={styles.label}>Webhook Trigger URL</label>
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>
+              <Key size={14} style={{ marginRight: 6 }} /> Webhook ID
+            </label>
+            <input 
+              value={webhookId}
+              onChange={(e) => setWebhookId(e.target.value)}
+              placeholder="Paste your ID here..."
+              style={styles.idInput}
+            />
+          </div>
+
+          <label style={styles.label}>Full Webhook Trigger URL</label>
           <div style={styles.inputWrapper}>
             <input 
               readOnly 
@@ -55,7 +68,7 @@ export default function N8nWorkflowControl() {
               {copied ? <Check size={18} color="#10B981" /> : <Copy size={18} />}
             </button>
           </div>
-          <p style={styles.infoText}>Use this URL in your Google Forms or external scripts to trigger the sync.</p>
+          <p style={styles.infoText}>Paste your ID above to update the trigger URL.</p>
         </div>
 
         <div style={styles.actionBox}>
@@ -76,7 +89,7 @@ export default function N8nWorkflowControl() {
             ) : (
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <Play size={18} fill="currentColor" /> 
-                <span>Test Pipeline Locally</span>
+                <span>Test Pipeline for {webhookId}</span>
               </div>
             )}
           </button>
@@ -102,7 +115,7 @@ export default function N8nWorkflowControl() {
                   ...styles.statusText,
                   color: step === 4 ? '#065F46' : '#4C1D95'
                 }}>
-                  {step === 1 && "Connecting to local n8n instance..."}
+                  {step === 1 && `Connecting to webhook ID: ${webhookId}...`}
                   {step === 2 && "Processing Student Data via Groq AI..."}
                   {step === 3 && "Updating Dashboard State..."}
                   {step === 4 && "✅ Pipeline Success: Dashboard Updated!"}
@@ -130,8 +143,22 @@ const styles = {
   title: { fontSize: '1.4rem', fontWeight: 800, color: '#1E293B', margin: 0 },
   subtitle: { color: '#64748B', fontSize: '0.9rem', marginTop: 4, fontWeight: 500 },
   content: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40 },
-  controlBox: { display: 'flex', flexDirection: 'column', gap: 10 },
-  label: { fontSize: '0.75rem', fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.08em' },
+  controlBox: { display: 'flex', flexDirection: 'column', gap: 12 },
+  inputGroup: { marginBottom: 8 },
+  label: { fontSize: '0.75rem', fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', marginBottom: 8 },
+  idInput: {
+    width: '100%',
+    padding: '10px 14px',
+    borderRadius: 10,
+    border: '1px solid rgba(124, 58, 237, 0.3)',
+    background: 'white',
+    fontSize: '0.95rem',
+    fontWeight: 700,
+    color: '#7C3AED',
+    outline: 'none',
+    boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)',
+    transition: 'all 0.2s'
+  },
   inputWrapper: { position: 'relative', display: 'flex', gap: 8 },
   input: { 
     flex: 1, 
@@ -158,7 +185,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center'
   },
-  infoText: { fontSize: '0.8rem', color: '#94A3B8', fontWeight: 500, marginTop: 4 },
+  infoText: { fontSize: '0.8rem', color: '#94A3B8', fontWeight: 500, marginTop: 2 },
   actionBox: { display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 16 },
   runBtn: {
     padding: '14px 28px',
