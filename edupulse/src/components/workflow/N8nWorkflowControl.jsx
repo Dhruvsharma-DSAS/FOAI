@@ -85,7 +85,7 @@ export default function N8nWorkflowControl({ initialId }) {
             </div>
           </div>
 
-          <label style={styles.label}>Full Webhook Trigger URL</label>
+          <label style={styles.label}>Full Webhook URL</label>
           <div style={styles.inputWrapper}>
             <input 
               readOnly 
@@ -143,7 +143,7 @@ export default function N8nWorkflowControl({ initialId }) {
                   ...styles.statusText,
                   color: step === 4 ? '#065F46' : '#4C1D95'
                 }}>
-                  {step === 1 && `Triggering ${path} for ID: ${webhookId.substring(0, 8)}...`}
+                  {step === 1 && `Connecting to ${path} for ID: ${webhookId.substring(0, 8)}...`}
                   {step === 2 && "Processing Student Data via Groq AI..."}
                   {step === 3 && "Updating Dashboard State..."}
                   {step === 4 && "✅ Pipeline Success: Dashboard Updated!"}
