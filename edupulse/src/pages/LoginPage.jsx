@@ -8,6 +8,7 @@ import LoadingScreen from '../components/shared/LoadingScreen';
 import { useData } from '../context/DataContext';
 import { ArrowRight, ChevronDown, Brain, BarChart3, Shield, Users, Zap, Target, GraduationCap, FileSpreadsheet, Bot, LineChart } from 'lucide-react';
 import N8nPipelineSection from '../components/workflow/N8nPipelineSection';
+import N8nWorkflowControl from '../components/workflow/N8nWorkflowControl';
 
 const fadeUp = { hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } };
 const stagger = { visible: { transition: { staggerChildren: 0.12 } } };
@@ -242,6 +243,13 @@ export default function LoginPage() {
 
       {/* N8N WORKFLOW — 27-Node Pipeline Visualization */}
       <N8nPipelineSection />
+
+      {/* Webhook Control Section */}
+      <section id="webhook-control" style={{ padding: '0 48px 100px', background: 'transparent' }}>
+        <div style={S.inner}>
+          <N8nWorkflowControl />
+        </div>
+      </section>
 
       {/* Extra floating elements between sections */}
       <div style={{ position: 'relative', height: 0, overflow: 'visible' }}>
