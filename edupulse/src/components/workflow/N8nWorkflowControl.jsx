@@ -3,18 +3,41 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Copy, Check, Zap, Play, Loader2, Key } from 'lucide-react';
 import GlassCard from '../shared/GlassCard';
 
-export default function N8nWorkflowControl({ initialId = "student-engagement-sync" }) {
+export default function N8nWorkflowControl({ initialId }) {
   const [copied, setCopied] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [step, setStep] = useState(0);
-  const [webhookId, setWebhookId] = useState(initialId);
   
-  const webhookUrl = `http://localhost:5678/webhook/${webhookId}`;
+  // Using the specific ID and path structure provided by the user
+  const [webhookId, setWebhookId] = useState(initialId || "b4b7aa1c-8948-4558-86d5-871db15bd247");
+  const [path, setPath] = useState("webhook-test"); 
+  
+  const webhookUrl = `http://localhost:5678/${path}/${webhookId}`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(webhookUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handlePaste = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      if (text) {
+        // Try to extract ID from a full n8n URL if pasted
+        const parts = text.split('/');
+        const lastPart = parts[parts.length - 1];
+        if (lastPart && lastPart.includes('-')) {
+          setWebhookId(lastPart);
+          if (text.includes('webhook-test')) setPath('webhook-test');
+          else if (text.includes('webhook')) setPath('webhook');
+        } else {
+          setWebhookId(text);
+        }
+      }
+    } catch (err) {
+      console.error('Failed to read clipboard', err);
+    }
   };
 
   const runPipeline = () => {
@@ -49,12 +72,17 @@ export default function N8nWorkflowControl({ initialId = "student-engagement-syn
             <label style={styles.label}>
               <Key size={14} style={{ marginRight: 6 }} /> Webhook ID
             </label>
-            <input 
-              value={webhookId}
-              onChange={(e) => setWebhookId(e.target.value)}
-              placeholder="Paste your ID here..."
-              style={styles.idInput}
-            />
+            <div style={{ display: 'flex', gap: 8 }}>
+              <input 
+                value={webhookId}
+                onChange={(e) => setWebhookId(e.target.value)}
+                placeholder="Paste your ID here..."
+                style={styles.idInput}
+              />
+              <button onClick={handlePaste} style={styles.pasteBtn}>
+                Paste
+              </button>
+            </div>
           </div>
 
           <label style={styles.label}>Full Webhook Trigger URL</label>
@@ -68,7 +96,7 @@ export default function N8nWorkflowControl({ initialId = "student-engagement-syn
               {copied ? <Check size={18} color="#10B981" /> : <Copy size={18} />}
             </button>
           </div>
-          <p style={styles.infoText}>Paste your ID above to update the trigger URL.</p>
+          <p style={styles.infoText}>Currently using <strong>{path}</strong> path. Paste a full link to update.</p>
         </div>
 
         <div style={styles.actionBox}>
@@ -89,7 +117,7 @@ export default function N8nWorkflowControl({ initialId = "student-engagement-syn
             ) : (
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <Play size={18} fill="currentColor" /> 
-                <span>Test Pipeline for {webhookId}</span>
+                <span>Test Pipeline Localhost</span>
               </div>
             )}
           </button>
@@ -115,7 +143,7 @@ export default function N8nWorkflowControl({ initialId = "student-engagement-syn
                   ...styles.statusText,
                   color: step === 4 ? '#065F46' : '#4C1D95'
                 }}>
-                  {step === 1 && `Connecting to webhook ID: ${webhookId}...`}
+                  {step === 1 && `Triggering ${path} for ID: ${webhookId.substring(0, 8)}...`}
                   {step === 2 && "Processing Student Data via Groq AI..."}
                   {step === 3 && "Updating Dashboard State..."}
                   {step === 4 && "✅ Pipeline Success: Dashboard Updated!"}
@@ -147,16 +175,27 @@ const styles = {
   inputGroup: { marginBottom: 8 },
   label: { fontSize: '0.75rem', fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', marginBottom: 8 },
   idInput: {
-    width: '100%',
+    flex: 1,
     padding: '10px 14px',
     borderRadius: 10,
     border: '1px solid rgba(124, 58, 237, 0.3)',
     background: 'white',
-    fontSize: '0.95rem',
+    fontSize: '0.9rem',
     fontWeight: 700,
     color: '#7C3AED',
     outline: 'none',
     boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)',
+    transition: 'all 0.2s'
+  },
+  pasteBtn: {
+    padding: '0 16px',
+    borderRadius: 10,
+    border: 'none',
+    background: 'rgba(124, 58, 237, 0.1)',
+    color: '#7C3AED',
+    fontWeight: 700,
+    fontSize: '0.8rem',
+    cursor: 'pointer',
     transition: 'all 0.2s'
   },
   inputWrapper: { position: 'relative', display: 'flex', gap: 8 },
@@ -166,7 +205,7 @@ const styles = {
     borderRadius: 12, 
     border: '1px solid rgba(200, 210, 220, 0.5)', 
     background: 'rgba(255, 255, 255, 0.8)',
-    fontSize: '0.9rem',
+    fontSize: '0.85rem',
     color: '#334155',
     fontWeight: 600,
     fontFamily: 'monospace',
