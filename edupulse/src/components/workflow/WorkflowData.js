@@ -21,7 +21,7 @@ export const CATEGORY_LABELS = {
   gemini:   'GEMINI AI',
 };
 
-// ─── ALL 27 NODES ───
+// ─── ALL 27 NODES (Aligned with Official Documentation) ───
 export const WORKFLOW_NODES = [
   // ══════════ PIPELINE A — Student Engagement Scoring (11 nodes) ══════════
   {
@@ -249,6 +249,31 @@ export const WORKFLOW_NODES = [
     dataOut: 'Teacher performance summary JSON',
   },
 
+  {
+    id: 'groq-chat-model-1',
+    name: 'Groq Chat Model',
+    subtitle: 'LLM Model — llama-3.1-8b',
+    type: 'ai',
+    pipeline: 'B',
+    what: 'The actual inference engine for transcript comparison. Provides the brain for the LLM Comparison node.',
+    why: 'Separating the model from the chain allows for easy switching of AI providers (Groq/OpenAI/Anthropic) without changing the logic.',
+    dataIn: 'Prompt from LLM Comparison',
+    dataOut: 'Raw text generation',
+    aiModel: 'Groq llama-3.1-8b-instant',
+  },
+  {
+    id: 'groq-chat-model-2',
+    name: 'Groq Chat Model',
+    subtitle: 'LLM Model — llama-3.1-8b',
+    type: 'ai',
+    pipeline: 'B',
+    what: 'The inference engine for generating the teacher performance summary.',
+    why: 'Ensures consistent summarization quality across all reports.',
+    dataIn: 'Prompt from Teacher Summary',
+    dataOut: 'Raw text generation',
+    aiModel: 'Groq llama-3.1-8b-instant',
+  },
+
   // ══════════ PIPELINE C — Report Generation (5 nodes) ══════════
   {
     id: 'message-model',
@@ -294,6 +319,17 @@ export const WORKFLOW_NODES = [
     dataIn: 'Generated report text',
     dataOut: 'Updated Google Doc',
   },
+  {
+    id: 'gemini-model',
+    name: 'Gemini 2.0 Flash',
+    subtitle: 'AI Model Engine',
+    type: 'gemini',
+    pipeline: 'C',
+    what: 'The high-intelligence model engine powering both class analytics and final report generation.',
+    why: 'Gemini 2.0 Flash provides the long-context window needed to process all 10 students and teacher analysis simultaneously.',
+    dataIn: 'Prompt from Class Analysis / Report Generator',
+    dataOut: 'Advanced reasoning & text generation',
+  },
 ];
 
 // ─── CONNECTIONS ───
@@ -320,13 +356,16 @@ export const WORKFLOW_CONNECTIONS = [
   ['chunk-notes', 'merge'],
   ['chunk-transcript', 'merge'],
   ['merge', 'basic-llm'],
-  ['basic-llm', 'code-js-b'],
+  ['basic-llm', 'groq-chat-model-1'],
+  ['basic-llm1', 'groq-chat-model-2'],
   ['code-js-b', 'code-js3'],
   ['code-js3', 'basic-llm1'],
 
   // Pipeline C (cross-pipeline connections)
   ['code-js2', 'message-model'],
   ['message-model', 'merge1'],
+  ['message-model', 'gemini-model'],
+  ['message-model1', 'gemini-model'],
   ['basic-llm1', 'merge1'],
   ['merge1', 'message-model1'],
   ['message-model1', 'update-doc'],

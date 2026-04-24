@@ -24,16 +24,19 @@ const NODE_POSITIONS = {
   'chunk-notes':           { col: 2,  row: 4.5 },
   'chunk-transcript':      { col: 2,  row: 6 },
   'merge':                 { col: 3,  row: 5.2 },
-  'basic-llm':             { col: 4,  row: 5.2 },
+  'basic-llm':             { col: 4,  row: 4.5 },
+  'groq-chat-model-1':     { col: 4,  row: 6.2 },
   'code-js-b':             { col: 5,  row: 5.2 },
   'code-js3':              { col: 6,  row: 5.2 },
-  'basic-llm1':            { col: 7,  row: 5.2 },
+  'basic-llm1':            { col: 7,  row: 4.5 },
+  'groq-chat-model-2':     { col: 7,  row: 6.2 },
 
   // Pipeline C — Report Generation
   'message-model':         { col: 8,  row: 0 },
   'merge1':                { col: 8,  row: 3 },
   'message-model1':        { col: 9,  row: 3 },
   'update-doc':            { col: 9,  row: 1.5 },
+  'gemini-model':          { col: 10, row: 1.5 },
 };
 
 const GRID = {
@@ -54,7 +57,7 @@ function getPixelPos(nodeId) {
   };
 }
 
-const CANVAS_W = GRID.padX * 2 + 10 * GRID.colWidth;
+const CANVAS_W = GRID.padX * 2 + 11 * GRID.colWidth;
 const CANVAS_H = GRID.padY * 2 + 7.2 * GRID.rowHeight;
 
 /* ── Helper: get color for a node type ── */
