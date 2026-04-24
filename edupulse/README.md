@@ -326,17 +326,17 @@ Documents over 3,000 characters are chunked: first 1,500 chars + 4 evenly-spaced
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/foai-edupulse.git
-cd foai-edupulse
+git clone https://github.com/Dhruvsharma-DSAS/FOAI.git
+cd FOAI/edupulse
 
 # Install dependencies
 npm install
 
 # Start development server
-npm start
+npm run dev
 ```
 
-The app will run at `http://localhost:3000`.
+The app will run at `http://localhost:5173`.
 
 ---
 
@@ -346,7 +346,7 @@ The app will run at `http://localhost:3000`.
 |-------|---------|
 | **Project** | FOAI — Fundamentals of Artificial Intelligence |
 | **Platform** | EduPulse |
-| **Author** | Dhruv Naveen |
+| **Author** | Dhruv Sharma |
 | **Batch** | VMT35 |
 | **Date** | April 2026 |
 | **Live URL** | [https://foai-4iif.vercel.app/](https://foai-4iif.vercel.app/) |
