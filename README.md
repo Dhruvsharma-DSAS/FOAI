@@ -32,6 +32,32 @@ Classroom engagement is invisible to both students and institutions. Teachers de
 
 ---
 
+## 🔑 Sample Login Data
+
+To explore the dual-dashboard system, use the following credentials:
+
+### 👨‍🏫 Teacher Access
+- **ID:** `Dhruvsh`
+- **Password:** `Dhruv`
+
+### 🎓 Student Access
+*All students use the password:* **`Dhruv`**
+
+| Student Name | ID | Login Email |
+|--------------|----|-------------|
+| Dhruv | 101 | `dhruv@email.com` |
+| Rahul | 102 | `rahul@email.com` |
+| Aisha | 103 | `aisha@email.com` |
+| Neha | 104 | `neha@email.com` |
+| Arjun | 105 | `arjun@email.com` |
+| Simran | 106 | `simran@email.com` |
+| Karan | 107 | `karan@email.com` |
+| Priya | 108 | `priya@email.com` |
+| Aman | 109 | `aman@email.com` |
+| Riya | 110 | `riya@email.com` |
+
+---
+
 ## 🏗️ System Architecture
 
 ```
