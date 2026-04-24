@@ -252,6 +252,16 @@ Final Score = 0.6 × Student Score + 0.3 × Teacher Score + 0.1 × Sentiment Sco
 | **Teacher Dashboard** | Class-wide analytics — 4 stat cards (Total Students, Avg Engagement, High Risk, Low Risk), searchable/sortable student table, risk filters, edit mode |
 | **How It Works** | Interactive visualization of the n8n workflow pipeline |
 
+### 🔐 Demo Credentials
+
+Use these credentials to explore the dual-dashboard system:
+
+| Role | Email / ID | Password |
+|------|------------|----------|
+| **Student** | `Dhruv` | `Dhruv` |
+| **Teacher** | `Dhruvsh` | *(Any)* |
+| **Teacher** | `Dhruv` | *(Any)* |
+
 ---
 
 ## 🤖 AI Models & Token Strategy
